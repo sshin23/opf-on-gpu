@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\usepackage{lscape}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{times}
+
+\begin{document}
+\centering
+\begin{tabular}{|l|cc|cc|cc|cc|}
+  \hline
+  \multirow{3}{*}{\textbf{Case}}
+  & \multicolumn{2}{c|}{\textbf{MadNLP + SIMDiff + cuSOLVER}}
+  & \multicolumn{2}{c|}{\textbf{MadNLP + SIMDiff + Ma27}}
+  & \multicolumn{2}{c|}{\textbf{Ipopt + AMPL + Ma27}}
+  & \multicolumn{2}{c|}{\textbf{Ipopt + JuMP + Ma27}}\\
+  &\multicolumn{2}{c|}{\textbf{(gpu)}} &\multicolumn{2}{c|}{\textbf{(cpu)}} &\multicolumn{2}{c|}{\textbf{(cpu)}}&\multicolumn{2}{c|}{\textbf{(cpu)}}
+  \\
+  \cline{2-9}
+  & objective & constr. viol.
+  & objective & constr. viol.
+  & objective & constr. viol.
+  & objective & constr. viol.
+  \\
+  %% data %%
+  \\
+  \hline
+\end{tabular}
+\end{document}
