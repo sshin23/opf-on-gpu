@@ -1,12 +1,12 @@
 using MadNLP, MadNLPHSL, MadNLPGPU
-using SIMDiffExamples
+using ExaModelsExamples
 using JuMP, Ipopt, CUDA, AmplNLWriter, NLPModels
 using Printf, Plots
 using LinearAlgebra
 
 pgfplotsx()
 
-SIMDiffExamples.silence()
+ExaModelsExamples.silence()
 CUDA.allowscalar(false);
 CUDA.device!(1)
 
@@ -83,7 +83,7 @@ for (i, (name,case)) in enumerate(all_cases)
 ******************************
 """)
     # MadNLP (gpu)
-    m = SIMDiffExamples.ac_power_model(case, CUDABackend())
+    m = ExaModelsExamples.ac_power_model(case, CUDABackend())
 
     result = madnlp(
         m;
@@ -107,7 +107,7 @@ for (i, (name,case)) in enumerate(all_cases)
     cvio[:madnlp_simdiff_gpu][i] = c
 
     # MadNLP (cpu)
-    m = SIMDiffExamples.ac_power_model(case)
+    m = ExaModelsExamples.ac_power_model(case)
     result = madnlp(
         m;
         disable_garbage_collector=true,
@@ -132,7 +132,7 @@ for (i, (name,case)) in enumerate(all_cases)
     cvio[:madnlp_simdiff_cpu][i] = c
 
     # JuMP
-    m = SIMDiffExamples.jump_ac_power_model(case)
+    m = ExaModelsExamples.jump_ac_power_model(case)
     set_optimizer(m, Ipopt.Optimizer)
     set_optimizer_attribute(m, "linear_solver", "ma27")
     set_optimizer_attribute(m, "tol", tol)
@@ -156,7 +156,7 @@ for (i, (name,case)) in enumerate(all_cases)
     cvio[:ipopt_jump][i] = c
 
     # AMPL
-    m_ampl = SIMDiffExamples.jump_ac_power_model(case)
+    m_ampl = ExaModelsExamples.jump_ac_power_model(case)
     set_optimizer(
         m_ampl,
         () -> AmplNLWriter.Optimizer(
