@@ -1,11 +1,12 @@
 function ipopt_stats(fname)
     output = read(fname, String)
     iter = parse(Int, split(split(output, "Number of Iterations....:")[2], "\n")[1])
-    i = parse(Float64,split(split(output, "Total CPU secs in IPOPT (w/o function evaluations)   =")[2], "\n")[1])
-    ad = parse(Float64,split(split(output, "Total CPU secs in NLP function evaluations           =")[2], "\n")[1])
+    i = parse(Float64,split(split(output, "Total seconds in IPOPT (w/o function evaluations)    =")[2], "\n")[1])
+    ad = parse(Float64,split(split(output, "Total seconds in NLP function evaluations            =")[2], "\n")[1])
     tot = i + ad
     return iter, tot, ad
 end
+
 function varcon(n)
     if n <= 1000
         "$n"

@@ -1,8 +1,10 @@
-using MadNLP, MadNLPHSL, MadNLPGPU
+using MadNLP, MadNLPHSL, MadNLPGPU, HSL_jll
 using ExaModelsExamples
 using JuMP, Ipopt, CUDA, AmplNLWriter, NLPModels
 using Printf, Plots
 using LinearAlgebra
+
+include("opf.jl")
 
 pgfplotsx()
 
@@ -83,13 +85,13 @@ for (i, (name,case)) in enumerate(all_cases)
 ******************************
 """)
     # MadNLP (gpu)
-    m = ExaModelsExamples.ac_power_model(case, CUDABackend())
+    m = ExaModelsExamples.ac_power_model(case; backend=CUDABackend())
 
     result = madnlp(
         m;
+        linear_solver=CuCholeskySolver,
         disable_garbage_collector=true,
         tol=tol,
-        # inertia_correction_method = MadNLP.INERTIA_IGNORE,
         dual_initialized = true
     )
     GC.gc()
@@ -132,7 +134,7 @@ for (i, (name,case)) in enumerate(all_cases)
     cvio[:madnlp_simdiff_cpu][i] = c
 
     # JuMP
-    m = ExaModelsExamples.jump_ac_power_model(case)
+    m = jump_ac_power_model(case)
     set_optimizer(m, Ipopt.Optimizer)
     set_optimizer_attribute(m, "linear_solver", "ma27")
     set_optimizer_attribute(m, "tol", tol)
@@ -142,7 +144,7 @@ for (i, (name,case)) in enumerate(all_cases)
     set_optimizer_attribute(m, "constr_viol_tol", 10000.0)
     set_optimizer_attribute(m, "compl_inf_tol", 10000.0)
     set_optimizer_attribute(m, "honor_original_bounds", "no")
-    # set_optimizer_attribute(m, "print_timing_statistics", "yes")
+    set_optimizer_attribute(m, "print_timing_statistics", "yes")
     optimize!(m)
 
     it, tot, ad = ipopt_stats("jump_output")
@@ -156,7 +158,7 @@ for (i, (name,case)) in enumerate(all_cases)
     cvio[:ipopt_jump][i] = c
 
     # AMPL
-    m_ampl = ExaModelsExamples.jump_ac_power_model(case)
+    m_ampl = jump_ac_power_model(case)
     set_optimizer(
         m_ampl,
         () -> AmplNLWriter.Optimizer(
@@ -170,7 +172,7 @@ for (i, (name,case)) in enumerate(all_cases)
                 "constr_viol_tol=10000.0",
                 "compl_inf_tol=10000.0",
                 "honor_original_bounds=no",
-                # "print_timing_statistics=yes",
+                "print_timing_statistics=yes",
             ]
         )
     )
@@ -201,3 +203,10 @@ end
 
 include("table.jl")
 include("plot.jl")
+
+
+
+
+
+
+
