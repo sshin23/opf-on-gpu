@@ -36,7 +36,19 @@ function termination_code(status::MadNLP.Status)
         return " "
     elseif status == MadNLP.SOLVED_TO_ACCEPTABLE_LEVEL
         return "a"
-    elseif status == MadNLP.DIVERGING_ITERATES || status == MadNLP.DIVERGING_ITERATES
+    elseif status == MadNLP.INFEASIBLE_PROBLEM_DETECTED
+        return "i"
+    else
+        return "f"
+    end
+end
+
+function termination_code(status::Symbol)
+    if status == :first_order
+        return " "
+    elseif status == :acceptable
+        return "a"
+    elseif status == :infeasible
         return "i"
     else
         return "f"

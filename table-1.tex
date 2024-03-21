@@ -6,23 +6,19 @@
 
 \begin{document}
 \centering
-\begin{tabular}{|l|c|c|cccc|cccc|ccc|ccc|}
+\begin{tabular}{|l|c|c|cccc|cccc|}
   \hline
   \multirow{3}{*}{\textbf{Case}}
   & \multirow{3}{*}{nvars}
   & \multirow{3}{*}{ncons}
-  & \multicolumn{4}{c|}{\textbf{MadNLP+ExaModels+cuSOLVER}}
-  & \multicolumn{4}{c|}{\textbf{MadNLP+ExaModels+Ma27}}
-  & \multicolumn{3}{c|}{\textbf{Ipopt+AMPL+Ma27}}
-  & \multicolumn{3}{c|}{\textbf{Ipopt+JuMP+Ma27}}\\
-  & & &\multicolumn{4}{c|}{\textbf{(GPU)}} &\multicolumn{4}{c|}{\textbf{(CPU)}} &\multicolumn{3}{c|}{\textbf{(CPU)}}&\multicolumn{3}{c|}{\textbf{(CPU)}}
+  & \multicolumn{4}{c|}{\textbf{MadNLP+ExaModels+cuDSS}}
+  & \multicolumn{4}{c|}{\textbf{Ipopt+ExaModels+Ma27}}\\
+  & & &\multicolumn{4}{c|}{\textbf{(GPU)}} &\multicolumn{4}{c|}{\textbf{(CPU)}}
   \\
-  \cline{4-17}
+  \cline{4-11}
   & & 
   & iter & deriv.$^\dag$ & lin.$^\dag$ & total$^\dag$
   & iter & deriv.$^\dag$ & lin.$^\dag$ & total$^\dag$
-  & iter & deriv.$^\ddag$ & total$^\ddag$
-  & iter & deriv.$^\ddag$ & total$^\ddag$
   \\
   %% data %%
   \\

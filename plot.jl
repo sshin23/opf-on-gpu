@@ -1,40 +1,22 @@
-speedup_sol = soltime[:madnlp_simdiff_cpu] ./ soltime[:madnlp_simdiff_gpu]
-speedup_ad  = adtime[:madnlp_simdiff_cpu]  ./ adtime[:madnlp_simdiff_gpu]
-speedup_lin = lintime[:madnlp_simdiff_cpu] ./ lintime[:madnlp_simdiff_gpu]
+speedup_sol = soltime[:ipopt_examodels_cpu] ./ soltime[:madnlp_examodels_gpu]
+speedup_ad  = adtime[:ipopt_examodels_cpu]  ./ adtime[:madnlp_examodels_gpu]
+speedup_lin = lintime[:ipopt_examodels_cpu] ./ lintime[:madnlp_examodels_gpu]
 speedup_internal = (
-    soltime[:madnlp_simdiff_cpu] - adtime[:madnlp_simdiff_cpu] - lintime[:madnlp_simdiff_cpu]
+    soltime[:ipopt_examodels_cpu] - adtime[:ipopt_examodels_cpu] - lintime[:ipopt_examodels_cpu]
 ) ./ (
-    soltime[:madnlp_simdiff_gpu] - adtime[:madnlp_simdiff_gpu] - lintime[:madnlp_simdiff_gpu]
+    soltime[:madnlp_examodels_gpu] - adtime[:madnlp_examodels_gpu] - lintime[:madnlp_examodels_gpu]
 )
 
-p1 = plot(
-    ;
-    xlim = (minimum(nvar), maximum(nvar)),
-    ylim = (
-        .5 * min(
-            minimum(speedup_sol),
-            minimum(speedup_ad),
-            minimum(speedup_lin),
-            minimum(speedup_internal)
-        ),
-        2 * max(
-            maximum(speedup_sol),
-            maximum(speedup_ad),
-            maximum(speedup_lin),
-            maximum(speedup_internal)
-        )
-    ),
-    framestyle = :box,
-    xscale = :log10,
-    yscale = :log10,
+f = Figure(size=(500,300))
+ax = Axis(
+    f[1, 1],
+    xscale = log10,
+    yscale = log10,
     xlabel = "number of variables",
     ylabel = "speedup",
-    fontfamily = "Times",
-    legend= :topleft,
-    size=(500,300)
 );
-scatter!(
-    p1,
+Makie.scatter!(
+    ax,
     nvar,
     speedup_sol;
     label = "total solution",
@@ -42,8 +24,8 @@ scatter!(
     markeralpha = 0.0,
     markerstrokealpha = 1,
 );
-scatter!(
-    p1,
+Makie.scatter!(
+    ax,
     nvar,
     speedup_ad;
     label = "derivative evaluation",
@@ -51,8 +33,8 @@ scatter!(
     markeralpha = 0.0,
     markerstrokealpha = 1,
 );
-scatter!(
-    p1,
+Makie.scatter!(
+    ax,
     nvar,
     speedup_lin;
     label = "linear solver",
@@ -60,8 +42,8 @@ scatter!(
     markeralpha = 0.0,
     markerstrokealpha = 1,
 );
-scatter!(
-    p1,
+Makie.scatter!(
+    ax,
     nvar,
     speedup_internal;
     label = "solver internal",
@@ -69,11 +51,12 @@ scatter!(
     markeralpha = 0.0,
     markerstrokealpha = 1,
 );
-hline!(
-    p1,
+Makie.hlines!(
+    ax,
     [1];
     color = :gray,
     label = nothing
 );
 
-savefig(p1, "speedup-sol.pdf")
+axislegend(position = :lt)
+save("speedup-sol.pdf", f)

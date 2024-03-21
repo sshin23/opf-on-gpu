@@ -1,6 +1,7 @@
 [deps]
 AmplNLWriter = "7c4d4715-977e-5154-bfe0-e096adeac482"
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 ExaModels = "1037b233-b668-4ce9-9b63-f9f681f55dd2"
 ExaModelsExamples = "ff8351d9-12a3-4c2d-a61a-51dfbae68567"
 HSL_jll = "017b0a0e-03f4-516a-9b91-836bbd1904dd"

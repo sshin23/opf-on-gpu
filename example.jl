@@ -17,7 +17,10 @@ include("cases.jl")
 tol=1e-4
 
 
-all_cases = filter(((n,c),)-> endswith(n, "goc") || endswith(n, "pegase"), pglib_cases)
+all_cases = filter(((n,c),)->
+    # endswith(n, "goc") ||
+    # endswith(n, "pegase") ||
+    endswith(n, "epigrids"), pglib_cases)
 ncases = length(all_cases)
 
 # reseults 
@@ -92,7 +95,6 @@ for (i, (name,case)) in enumerate(all_cases)
         linear_solver=CuCholeskySolver,
         disable_garbage_collector=true,
         tol=tol,
-        dual_initialized = true
     )
     GC.gc()
     
@@ -114,7 +116,6 @@ for (i, (name,case)) in enumerate(all_cases)
         m;
         disable_garbage_collector=true,
         linear_solver=Ma27Solver,
-        tol=tol,
     )
     GC.gc()
 
