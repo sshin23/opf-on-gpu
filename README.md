@@ -4,7 +4,7 @@ This repository stores the scripts for generating the results in "Accelerating O
 ## How to run the script?
 First, julia v1.9 or higher needs to be installed. We recommend using [juliaup](https://github.com/JuliaLang/juliaup). 
 
-To benchmark with ma27 linear solver, you can additionally install [JuliaHSL](https://www.hsl.rl.ac.uk/hsl2023/index.html). Also, to ensure that AMPL can find the HSL library, make sure that `libhsl.so` can be found from `PATH` environment variable.
+To benchmark with ma27 linear solver, you can additionally install [libHSL](https://licences.stfc.ac.uk/product/libhsl). Also, to ensure that AMPL can find the HSL library, make sure that `libhsl.so` can be found from `PATH` environment variable.
 
 The script assumes that your computer has an NVIDIA GPU. 
 
@@ -15,7 +15,7 @@ $ julia --project -e 'import Pkg; Pkg.develop("path/to/HSL_jll"); Pkg.instantiat
 ```
 Then, the script can run:
 ```
-$ julia -e 'include("example.jl"); include("example.jl")' 
+$ julia --project -e 'include("example.jl"); include("example.jl")' 
 ```
 Here, we run it twice just to make sure that compilation time is not affecting the timing results.
 
