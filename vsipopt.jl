@@ -3,7 +3,8 @@ using ExaModelsExamples
 using MadNLP, MadNLPHSL, MadNLPGPU, CUDA
 using NLPModelsIpopt
 using CairoMakie
-
+using NLPModels
+using JuMP
 
 include("opf.jl")
 

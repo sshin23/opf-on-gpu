@@ -1,3 +1,5 @@
+compile_latex = false
+
 tbl = join((
 """
 $(mod(i,5) == 1 ? "\\hline" : "")
@@ -28,7 +30,7 @@ write(
     )
 )
 
-run(`pdflatex result-1.tex`)
+compile_latex && run(`pdflatex result-1.tex`)
 
 
 tbl = join((
@@ -55,4 +57,4 @@ write(
     )
 )
 
-run(`pdflatex result-2.tex`)
+compile_latex && run(`pdflatex result-2.tex`)
